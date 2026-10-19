@@ -1,0 +1,6 @@
+{ "name": "anim_main_shoot", "scene": "main", "start_frame": 3, "frames": 160, "every": 4,
+  "player": "tabletop parent/shotgun main parent/anim_shotgun main parent",
+  "animation": "player shoot dealer",
+  "watch": ["tabletop parent/shotgun main parent",
+            "tabletop parent/shotgun main parent/shotgun parent new/muzzle flash test1/Cylinder"],
+  "audio_watch": ["speaker parent/rack shotgun_animator"] }

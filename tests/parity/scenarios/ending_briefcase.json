@@ -1,0 +1,36 @@
+{
+ "name": "ending_briefcase",
+ "scene": "ending",
+ "seed": 20260929,
+ "start_frame": 3,
+ "quiet_rng": true,
+ "wait_for_visible": "Camera/dialogue UI/bracket ui/money briefcase",
+ "player": {
+  "name": "ABE",
+  "shots": 7,
+  "shells": 9,
+  "doors": 3,
+  "cigs": 2,
+  "beer": 660
+ },
+ "after": 700,
+ "timeline": [
+  {"at": 10, "event": "key", "keycode": 4194322, "pressed": true},
+  {"at": 11, "event": "key", "keycode": 4194322, "pressed": false},
+  {"at": 20, "event": "key", "keycode": 4194309, "pressed": true},
+  {"at": 21, "event": "key", "keycode": 4194309, "pressed": false},
+  {"at": 40, "event": "key", "keycode": 4194321, "pressed": true},
+  {"at": 41, "event": "key", "keycode": 4194321, "pressed": false},
+  {"at": 60, "event": "key", "keycode": 4194321, "pressed": true},
+  {"at": 61, "event": "key", "keycode": 4194321, "pressed": false},
+  {"at": 80, "event": "key", "keycode": 4194309, "pressed": true},
+  {"at": 81, "event": "key", "keycode": 4194309, "pressed": false},
+  {"at": 110, "event": "key", "keycode": 4194319, "pressed": true},
+  {"at": 111, "event": "key", "keycode": 4194319, "pressed": false},
+  {"at": 130, "event": "key", "keycode": 4194309, "pressed": true},
+  {"at": 131, "event": "key", "keycode": 4194309, "pressed": false},
+  {"at": 1830, "event": "key", "keycode": 65, "pressed": true},
+  {"at": 1831, "event": "key", "keycode": 65, "pressed": false}
+ ],
+ "shots": [5, 140, 960, 1100, 1760, 2250]
+}

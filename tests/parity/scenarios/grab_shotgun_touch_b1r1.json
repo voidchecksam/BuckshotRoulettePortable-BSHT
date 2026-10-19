@@ -1,0 +1,70 @@
+{
+ "name": "grab_shotgun_touch_b1r1",
+ "scene": "main",
+ "seed": 20260915,
+ "start_frame": 3,
+ "quiet_rng": true,
+ "wait_for_visible": "Camera/dialogue UI/bracket ui/tabletop/m button_shotgun",
+ "after": 90,
+ "timeline": [
+  {
+   "at": 0,
+   "event": "touch",
+   "index": 0,
+   "x": 530,
+   "y": 80,
+   "pressed": true
+  },
+  {
+   "at": 1,
+   "event": "touch",
+   "index": 0,
+   "x": 530,
+   "y": 80,
+   "pressed": false
+  },
+  {
+   "at": 20,
+   "event": "touch",
+   "index": 0,
+   "x": 530,
+   "y": 80,
+   "pressed": true
+  },
+  {
+   "at": 21,
+   "event": "touch",
+   "index": 0,
+   "x": 530,
+   "y": 80,
+   "pressed": false
+  },
+  {
+   "at": 60,
+   "event": "touch",
+   "index": 0,
+   "x": 473,
+   "y": 426,
+   "pressed": true
+  },
+  {
+   "at": 65,
+   "event": "drag",
+   "index": 0,
+   "x": 473,
+   "y": 109
+  },
+  {
+   "at": 70,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": true
+  },
+  {
+   "at": 71,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": false
+  }
+ ]
+}

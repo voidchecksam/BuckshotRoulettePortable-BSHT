@@ -1,0 +1,3 @@
+jpcy/xatlas f700c7790aaa030e794b52ba7791a05c085faf0c
+https://github.com/jpcy/xatlas (MIT, see LICENSE)
+Bake-time only: linked into bake_room, never into bsht_vita.

@@ -1,0 +1,23 @@
+{ "name": "anim_play_semantics", "frames": 90,
+  "animations": {"format":2,"players":[{"path":"AP","root":".","autoplay":"","animations":[
+    {"name":"a","length":0.5,"loop":0,"step":0.0,"tracks":[
+      {"type":0,"path":"T:position","interp":1,"update":0,"loop_wrap":true,
+       "keys":[{"t":0,"tr":1,"k":"v3","v":[0,0,0]},{"t":0.5,"tr":1,"k":"v3","v":[1,0,0]}]},
+      {"type":0,"path":"T:visible","interp":1,"update":1,"loop_wrap":true,
+       "keys":[{"t":0,"tr":1,"k":"b","v":false},{"t":0.25,"tr":1,"k":"b","v":true}]},
+      {"type":0,"path":"T:scale","interp":2,"update":0,"loop_wrap":true,
+       "keys":[{"t":0,"tr":1,"k":"v3","v":[1,1,1]},{"t":0.2,"tr":1,"k":"v3","v":[2,1,1]},
+               {"t":0.4,"tr":1,"k":"v3","v":[1,3,1]},{"t":0.5,"tr":1,"k":"v3","v":[1,1,1]}]},
+      {"type":5,"path":".","interp":1,"loop_wrap":true,
+       "keys":[{"t":0,"tr":1,"m":"mark","a":[{"k":"s","v":"k0"}]},
+               {"t":0.25,"tr":1,"m":"mark","a":[{"k":"s","v":"k25"}]},
+               {"t":0.5,"tr":1,"m":"mark","a":[{"k":"s","v":"k50"}]}]}]},
+    {"name":"b","length":0.2,"loop":1,"step":0.0,"tracks":[
+      {"type":0,"path":"T:position","interp":1,"update":0,"loop_wrap":true,
+       "keys":[{"t":0,"tr":1,"k":"v3","v":[5,0,0]},{"t":0.2,"tr":1,"k":"v3","v":[6,0,0]}]},
+      {"type":5,"path":".","interp":1,"loop_wrap":true,
+       "keys":[{"t":0,"tr":1,"m":"mark","a":[{"k":"s","v":"b0"}]}]}]}]}]},
+  "steps": [ {"frame":1,"do":"play","anim":"a"}, {"frame":10,"do":"play","anim":"a"},
+             {"frame":40,"do":"play","anim":"a"}, {"frame":50,"do":"play","anim":"b"},
+             {"frame":70,"do":"stop"}, {"frame":75,"do":"play","anim":"b"},
+             {"frame":80,"do":"seek","time":0.1,"update":true} ] }

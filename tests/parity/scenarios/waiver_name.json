@@ -1,0 +1,136 @@
+{
+ "name": "waiver_name",
+ "scene": "main",
+ "seed": 20260929,
+ "start_frame": 3,
+ "quiet_rng": true,
+ "waiver": true,
+ "wait_for_visible": "Camera/dialogue UI/bracket ui/waiver pickup/m button_waiver",
+ "after": 420,
+ "timeline": [
+  {
+   "at": 10,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": true
+  },
+  {
+   "at": 11,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": false
+  },
+  {
+   "at": 20,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 21,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 200,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 201,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 215,
+   "event": "key",
+   "keycode": 4194321,
+   "pressed": true
+  },
+  {
+   "at": 216,
+   "event": "key",
+   "keycode": 4194321,
+   "pressed": false
+  },
+  {
+   "at": 230,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 231,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 245,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": true
+  },
+  {
+   "at": 246,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": false
+  },
+  {
+   "at": 260,
+   "event": "key",
+   "keycode": 4194321,
+   "pressed": true
+  },
+  {
+   "at": 261,
+   "event": "key",
+   "keycode": 4194321,
+   "pressed": false
+  },
+  {
+   "at": 275,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 276,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 290,
+   "event": "key",
+   "keycode": 4194321,
+   "pressed": true
+  },
+  {
+   "at": 291,
+   "event": "key",
+   "keycode": 4194321,
+   "pressed": false
+  },
+  {
+   "at": 305,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 306,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  }
+ ],
+ "shots": [
+  240,
+  330
+ ]
+}

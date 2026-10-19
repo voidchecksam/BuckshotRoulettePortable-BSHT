@@ -1,0 +1,225 @@
+{
+ "name": "use_adrenaline_b2r1",
+ "scene": "main",
+ "seed": 17,
+ "start_frame": 3,
+ "quiet_rng": true,
+ "batch": 1,
+ "wait_for_visible": "Camera/dialogue UI/bracket ui/item grabbing/m button_briefcase intake",
+ "after": 900,
+ "timeline": [
+  {
+   "at": 0,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": true
+  },
+  {
+   "at": 1,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": false
+  },
+  {
+   "at": 20,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": true
+  },
+  {
+   "at": 21,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": false
+  },
+  {
+   "at": 90,
+   "event": "touch",
+   "index": 0,
+   "x": 650,
+   "y": 270,
+   "pressed": true
+  },
+  {
+   "at": 91,
+   "event": "touch",
+   "index": 0,
+   "x": 650,
+   "y": 270,
+   "pressed": false
+  },
+  {
+   "at": 110,
+   "event": "touch",
+   "index": 0,
+   "x": 650,
+   "y": 270,
+   "pressed": true
+  },
+  {
+   "at": 111,
+   "event": "touch",
+   "index": 0,
+   "x": 650,
+   "y": 270,
+   "pressed": false
+  },
+  {
+   "at": 170,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": true
+  },
+  {
+   "at": 171,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": false
+  },
+  {
+   "at": 190,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": true
+  },
+  {
+   "at": 191,
+   "event": "touch",
+   "index": 0,
+   "x": 475,
+   "y": 260,
+   "pressed": false
+  },
+  {
+   "at": 260,
+   "event": "touch",
+   "index": 0,
+   "x": 290,
+   "y": 270,
+   "pressed": true
+  },
+  {
+   "at": 261,
+   "event": "touch",
+   "index": 0,
+   "x": 290,
+   "y": 270,
+   "pressed": false
+  },
+  {
+   "at": 280,
+   "event": "touch",
+   "index": 0,
+   "x": 290,
+   "y": 270,
+   "pressed": true
+  },
+  {
+   "at": 281,
+   "event": "touch",
+   "index": 0,
+   "x": 290,
+   "y": 270,
+   "pressed": false
+  },
+  {
+   "at": 1300,
+   "event": "touch",
+   "index": 0,
+   "x": 300,
+   "y": 340,
+   "pressed": true
+  },
+  {
+   "at": 1301,
+   "event": "touch",
+   "index": 0,
+   "x": 300,
+   "y": 340,
+   "pressed": false
+  },
+  {
+   "at": 1360,
+   "event": "touch",
+   "index": 0,
+   "x": 300,
+   "y": 340,
+   "pressed": true
+  },
+  {
+   "at": 1361,
+   "event": "touch",
+   "index": 0,
+   "x": 300,
+   "y": 340,
+   "pressed": false
+  },
+  {
+   "at": 1800,
+   "event": "touch",
+   "index": 0,
+   "x": 790,
+   "y": 420,
+   "pressed": true
+  },
+  {
+   "at": 1801,
+   "event": "touch",
+   "index": 0,
+   "x": 790,
+   "y": 420,
+   "pressed": false
+  },
+  {
+   "at": 1830,
+   "event": "touch",
+   "index": 0,
+   "x": 790,
+   "y": 420,
+   "pressed": true
+  },
+  {
+   "at": 1831,
+   "event": "touch",
+   "index": 0,
+   "x": 790,
+   "y": 420,
+   "pressed": false
+  },
+  {
+   "at": 1860,
+   "event": "touch",
+   "index": 0,
+   "x": 790,
+   "y": 420,
+   "pressed": true
+  },
+  {
+   "at": 1861,
+   "event": "touch",
+   "index": 0,
+   "x": 790,
+   "y": 420,
+   "pressed": false
+  }
+ ],
+ "don_items": true,
+ "shots": [
+  1780,
+  1860
+ ]
+}

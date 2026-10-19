@@ -1,0 +1,21 @@
+{
+  "_source": "Hidden: the six Steam lists without a description. Names: Steam (steamcommunity.com/stats/2835570/achievements).",
+  "achievements": [
+    {"id": "ach1", "name": "70K", "description": "Beat the standard game (all 3 rounds) for the first time."},
+    {"id": "ach2", "name": "Bronze Gates", "description": "Die during round 3 in normal/story mode."},
+    {"id": "ach3", "name": "Chasing Losses", "description": "Consume the Double or Nothing pills to start the mode."},
+    {"id": "ach4", "name": "Overdose", "description": "Start the Double or Nothing mode 10 times."},
+    {"id": "ach5", "name": "Nope!", "description": "Cash out immediately on your first run in Double or Nothing."},
+    {"id": "ach6", "name": "140K", "description": "Double your earnings and win/cash out in Double or Nothing."},
+    {"id": "ach7", "name": "1000K", "description": "Cash out over $1,000,000 in Double or Nothing."},
+    {"id": "ach8", "name": "Coin Flip", "description": "Shoot yourself with a blank when there are equal live and blank shells, without the magnifying glass or burner phone."},
+    {"id": "ach9", "name": "Digita, Orava and Koni", "description": "Use Beer, Cigarette Pack and Expired Medicine in a single turn."},
+    {"id": "ach10", "name": "Know When To Quit", "description": "Lose/die after accumulating more than $1,000,000 in Double or Nothing."},
+    {"id": "ach11", "name": "Name Taken", "description": "Enter the name \"GOD\" when signing the waiver.", "hidden": true},
+    {"id": "ach12", "name": "Full House", "description": "Use all available items in a single turn in Double or Nothing (needs a stolen item).", "hidden": true},
+    {"id": "ach13", "name": "Why?", "description": "Use the magnifying glass to see a live round, then shoot yourself.", "hidden": true},
+    {"id": "ach14", "name": "Soak It In", "description": "Stay in the hallway and listen to the club music for over a minute.", "hidden": true},
+    {"id": "ach15", "name": "Going Out With Style!", "description": "Saw off the barrel, shoot yourself with a live round, and die.", "hidden": true},
+    {"id": "ach16", "name": "High Rollers", "description": "Check the leaderboard on the TV.", "hidden": true}
+  ]
+}

@@ -1,0 +1,26 @@
+{
+ "name": "ending_don_score",
+ "scene": "ending",
+ "ending": "don",
+ "initial_time": 120.0,
+ "seed": 20260929,
+ "start_frame": 3,
+ "quiet_rng": true,
+ "wait_for_visible": "Camera/dialogue UI/bracket ui",
+ "player": {
+  "name": "ABE",
+  "shots": 3,
+  "shells": 4,
+  "doors": 0,
+  "cigs": 0,
+  "beer": 0
+ },
+ "after": 420,
+ "timeline": [
+  {"at": 500, "event": "key", "keycode": 4194322, "pressed": true},
+  {"at": 501, "event": "key", "keycode": 4194322, "pressed": false},
+  {"at": 520, "event": "key", "keycode": 4194309, "pressed": true},
+  {"at": 521, "event": "key", "keycode": 4194309, "pressed": false}
+ ],
+ "shots": [200, 330, 400, 490, 560, 900]
+}

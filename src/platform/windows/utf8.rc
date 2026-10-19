@@ -1,0 +1,4 @@
+// UTF-8 as the process code page (Windows 10 1903 and later): the narrow file
+// APIs then take the UTF-8 paths SDL and the tool's arguments give, so the
+// game and the tool run from a folder with any letters in its name.
+1 24 "utf8.manifest"

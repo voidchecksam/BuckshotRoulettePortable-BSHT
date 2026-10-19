@@ -1,0 +1,14 @@
+{
+ "name": "menu_boot",
+ "scene": "menu",
+ "seed": 20260928,
+ "start_frame": 1,
+ "wait_for_visible": "Camera/dialogue UI/menu ui/main screen",
+ "after": 620,
+ "timeline": [],
+ "shots": [
+  120,
+  480,
+  600
+ ]
+}

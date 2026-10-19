@@ -1,0 +1,25 @@
+# Build output
+/build/
+/build-*/
+*.vpk
+*.self
+*.velf
+compile_commands.json
+
+# bsht-extract's output, copied in for the tests and the dev loop. Never
+# commit it: it is the game.
+/assets/extracted/
+/assets/baked/
+/assets/reference/
+/bsht-data/
+
+# Local state
+/save/
+/.scratch/
+/external/
+/vita3k/
+__pycache__/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

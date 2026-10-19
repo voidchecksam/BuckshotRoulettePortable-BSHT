@@ -1,0 +1,19 @@
+{
+ "name": "ending_true_death",
+ "scene": "ending",
+ "ending": "true_death",
+ "seed": 20260929,
+ "start_frame": 3,
+ "quiet_rng": true,
+ "wait_for_visible": "Camera/dialogue UI/viewblocker parent",
+ "player": {
+  "name": "ABE",
+  "shots": 3,
+  "shells": 4,
+  "doors": 0,
+  "cigs": 0,
+  "beer": 0
+ },
+ "after": 120,
+ "timeline": []
+}

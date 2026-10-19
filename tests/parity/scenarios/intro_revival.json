@@ -1,0 +1,68 @@
+{
+ "name": "intro_revival",
+ "scene": "intro",
+ "seed": 20260929,
+ "start_frame": 1,
+ "wait_for_visible": "Camera/dialogue UI/viewblocker parent/viewblcoker",
+ "player": {
+  "entering_from_death": true,
+  "signed": true,
+  "name": "abe",
+  "batch": 0
+ },
+ "after": 480,
+ "timeline": [
+  {
+   "at": 980,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": true
+  },
+  {
+   "at": 981,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": false
+  },
+  {
+   "at": 1000,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 1001,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 1320,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": true
+  },
+  {
+   "at": 1321,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": false
+  },
+  {
+   "at": 1340,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 1341,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  }
+ ],
+ "shots": [
+  150,
+  400
+ ]
+}

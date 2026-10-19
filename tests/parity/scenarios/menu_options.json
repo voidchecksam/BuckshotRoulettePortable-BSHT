@@ -1,0 +1,122 @@
+{
+ "name": "menu_options",
+ "scene": "menu",
+ "seed": 20260928,
+ "start_frame": 1,
+ "wait_for_visible": "Camera/dialogue UI/menu ui/main screen",
+ "after": 60,
+ "timeline": [
+  {
+   "at": 620,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": true
+  },
+  {
+   "at": 621,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": false
+  },
+  {
+   "at": 630,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": true
+  },
+  {
+   "at": 631,
+   "event": "key",
+   "keycode": 4194322,
+   "pressed": false
+  },
+  {
+   "at": 640,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 641,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 660,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 661,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 680,
+   "event": "key",
+   "keycode": 4194320,
+   "pressed": true
+  },
+  {
+   "at": 681,
+   "event": "key",
+   "keycode": 4194320,
+   "pressed": false
+  },
+  {
+   "at": 700,
+   "event": "key",
+   "keycode": 4194320,
+   "pressed": true
+  },
+  {
+   "at": 701,
+   "event": "key",
+   "keycode": 4194320,
+   "pressed": false
+  },
+  {
+   "at": 720,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 721,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 740,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": true
+  },
+  {
+   "at": 741,
+   "event": "key",
+   "keycode": 4194309,
+   "pressed": false
+  },
+  {
+   "at": 760,
+   "event": "key",
+   "keycode": 4194305,
+   "pressed": true
+  },
+  {
+   "at": 761,
+   "event": "key",
+   "keycode": 4194305,
+   "pressed": false
+  }
+ ],
+ "shots": [
+  670,
+  750
+ ]
+}

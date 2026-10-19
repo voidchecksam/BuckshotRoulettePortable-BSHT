@@ -1,0 +1,17 @@
+{
+ "name": "heaven_fly",
+ "scene": "heaven",
+ "seed": 20260929,
+ "start_frame": 1,
+ "wait_for_visible": "Camera/dialogue UI/viewblocker parent",
+ "after": 400,
+ "timeline": [
+  {"at": 760, "event": "key", "keycode": 4194322, "pressed": true},
+  {"at": 761, "event": "key", "keycode": 4194322, "pressed": false},
+  {"at": 780, "event": "key", "keycode": 4194309, "pressed": true},
+  {"at": 781, "event": "key", "keycode": 4194309, "pressed": false},
+  {"at": 1760, "event": "key", "keycode": 4194309, "pressed": true},
+  {"at": 1761, "event": "key", "keycode": 4194309, "pressed": false}
+ ],
+ "shots": [120, 400, 740, 1200, 1740]
+}

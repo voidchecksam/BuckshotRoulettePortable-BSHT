@@ -1,0 +1,3 @@
+{ "name": "rng", "seed": 12345, "repeat": 200,
+  "ops": [ ["randi_range", -5, 5], ["randi_range", 0, 1], ["randi_range", 100, -100],
+           ["randf_range", -2.5, 7.0], ["randf"], ["randi"] ] }

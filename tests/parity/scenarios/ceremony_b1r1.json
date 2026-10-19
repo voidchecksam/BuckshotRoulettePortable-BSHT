@@ -1,0 +1,7 @@
+{ "name": "ceremony_b1r1", "scene": "main", "seed": 20260915, "quiet_rng": true, "start_frame": 3, "frames": 1440, "every": 12,
+  "players": ["dealer model parent/animator_dealer parent",
+              "dealer hands main1/animator_dealer hands",
+              "tabletop parent/shotgun main parent/anim_shotgun main parent",
+              "tabletop parent/shotgun main parent/shotgun parent new/dealer hand_shotgun right/animator_dealer hand shotgun right",
+              "tabletop parent/main tabletop/compartment_shells/animator_shell compartment",
+              "tabletop parent/main tabletop/health counter/health counter ui parent/round indicator parent/animator_round blinker"] }
