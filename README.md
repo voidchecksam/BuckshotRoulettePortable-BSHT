@@ -1,5 +1,8 @@
 # Buckshot Roulette PORTABLE - BSHT (for PS Vita)
 
+
+**Please Sign The Waiver**
+
 Affectionately shortened to BSHT-Vita, with BSHT-PSP soon!
 *(im aware bsht might be shorthand for bullshit but bear w me)*
 
@@ -28,7 +31,7 @@ sorts. But this is the best I can do for now.
 
 ## DOWNLOADING
 
-Grab these from the [Releases](../../releases) page:
+Grab these from the General Release of Liability [Releases](../../releases) page:
 
 | File | What it is |
 |---|---|
