@@ -137,11 +137,18 @@ ChildResult RunChild(const ChildRun& run) {
     }
     result.started = true;
     // Wait in short steps so a timeout or Ctrl+C can end the child.
-    const auto deadline = std::chrono::steady_clock::now() + run.timeout;
+    const auto begun = std::chrono::steady_clock::now();
+    const auto deadline = begun + run.timeout;
+    auto nextNote = begun + run.noteEvery;
     int status = REPROC_ETIMEDOUT;
     while (status == REPROC_ETIMEDOUT) {
         status = reproc_wait(child, kPollMs);
         if (status != REPROC_ETIMEDOUT) break;
+        const auto now = std::chrono::steady_clock::now();
+        if (run.onStillRunning && now >= nextNote) {
+            run.onStillRunning(std::chrono::duration_cast<std::chrono::milliseconds>(now - begun));
+            nextNote += run.noteEvery;
+        }
         result.stopped = StopRequested();
         result.timedOut = std::chrono::steady_clock::now() >= deadline;
         if (result.stopped || result.timedOut) {

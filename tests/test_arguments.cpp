@@ -27,6 +27,16 @@ TEST(Arguments, NothingToReadIsAUsageError) {
     EXPECT_EQ(Parse({"--frobnicate"}).action, extract::Action::Usage);
 }
 
+// Started with no path, the tool asks for one. A file dragged into the console
+// arrives in quotes, with the Enter key's line ending.
+TEST(Arguments, ATypedPathLosesItsQuotesAndSpaces) {
+    EXPECT_EQ(extract::CleanTypedPath("\"D:\\Steam\\Buckshot Roulette.exe\"\r\n"), "D:\\Steam\\Buckshot Roulette.exe");
+    EXPECT_EQ(extract::CleanTypedPath("  'D:\\Games\\BR'  "), "D:\\Games\\BR");
+    EXPECT_EQ(extract::CleanTypedPath("D:\\Games\\BR\n"), "D:\\Games\\BR");
+    EXPECT_EQ(extract::CleanTypedPath("   \r\n"), "");
+    EXPECT_EQ(extract::CleanTypedPath("\""), "\"");
+}
+
 TEST(Arguments, UnpackToWritesTheReferenceGameThere) {
     const extract::Parsed p = Parse({"game.exe", "--unpack-to", "external/game-v2.2"});
     ASSERT_EQ(p.action, extract::Action::Run) << p.error;

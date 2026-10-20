@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <filesystem>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -20,6 +21,10 @@ struct ChildRun {
     std::vector<std::string> extraEnv;   // "NAME=value", added to ours
     std::filesystem::path log;           // stdout and stderr, truncated first
     std::chrono::milliseconds timeout{std::chrono::minutes(45)};
+    // Called every `noteEvery` while the child runs, with the time so far, so
+    // a long silent step does not look hung.
+    std::chrono::milliseconds noteEvery{std::chrono::minutes(1)};
+    std::function<void(std::chrono::milliseconds)> onStillRunning;
 };
 
 struct ChildResult {

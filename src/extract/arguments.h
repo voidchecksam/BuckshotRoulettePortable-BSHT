@@ -21,4 +21,8 @@ struct Parsed {
 // args[0] is the program. `defaults` carries the paths found beside it.
 Parsed ParseArguments(const std::vector<std::string>& args, const Options& defaults);
 
+// A path typed (or dragged) into the console: surrounding spaces, the line
+// ending and one pair of quotes around it go.
+std::string CleanTypedPath(std::string line);
+
 }  // namespace extract

@@ -103,6 +103,27 @@ TEST(GodotRun, AChildThatHangsIsStoppedAtItsTimeout) {
     EXPECT_LT(std::chrono::steady_clock::now() - start, std::chrono::seconds(10));
 }
 
+// A long exporter prints nothing for minutes; the tool says it is still at it.
+TEST(GodotRun, ALongChildIsReportedAsStillRunning) {
+    const fs::path dir = Root() / "ALongChildIsReportedAsStillRunning";
+    fs::create_directories(dir);
+    extract::ChildRun run;
+    run.program = BSHT_FAKE_GODOT;
+    run.args = {"sleep"};
+    run.workingDir = dir;
+    run.log = dir / "long.log";
+    run.timeout = std::chrono::milliseconds(1300);
+    run.noteEvery = std::chrono::milliseconds(300);
+    std::vector<std::chrono::milliseconds> notes;
+    run.onStillRunning = [&notes](std::chrono::milliseconds elapsed) { notes.push_back(elapsed); };
+
+    extract::RunChild(run);
+
+    ASSERT_GE(notes.size(), 2u);
+    EXPECT_GE(notes[0], std::chrono::milliseconds(300));
+    EXPECT_GT(notes[1], notes[0]);
+}
+
 TEST(GodotRun, AStopRequestEndsTheChild) {
     const fs::path dir = Root() / "AStopRequestEndsTheChild";
     fs::create_directories(dir);

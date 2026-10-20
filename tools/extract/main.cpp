@@ -47,19 +47,38 @@ std::string ToUtf8(const fs::path& p) {
 }
 
 #if defined(_WIN32)
+std::string Utf8(const wchar_t* w) {
+    const int len = WideCharToMultiByte(CP_UTF8, 0, w, -1, nullptr, 0, nullptr, nullptr);
+    std::string s(len > 0 ? len - 1 : 0, '\0');
+    WideCharToMultiByte(CP_UTF8, 0, w, -1, s.data(), len, nullptr, nullptr);
+    return s;
+}
+
 // The command line as UTF-8: argv holds the ANSI code page's version.
 std::vector<std::string> Utf8Args() {
     int n = 0;
     wchar_t** w = CommandLineToArgvW(GetCommandLineW(), &n);
     std::vector<std::string> out;
-    for (int i = 0; i < n; ++i) {
-        const int len = WideCharToMultiByte(CP_UTF8, 0, w[i], -1, nullptr, 0, nullptr, nullptr);
-        std::string s(len > 0 ? len - 1 : 0, '\0');
-        WideCharToMultiByte(CP_UTF8, 0, w[i], -1, s.data(), len, nullptr, nullptr);
-        out.push_back(std::move(s));
-    }
+    for (int i = 0; i < n; ++i) out.push_back(Utf8(w[i]));
     LocalFree(w);
     return out;
+}
+
+// True when the console is ours alone: started from Explorer, not a prompt.
+bool OwnsConsole() {
+    DWORD ids[2];
+    return GetConsoleProcessList(ids, 2) == 1;
+}
+
+// Double-clicked with no path: ask for one instead of printing the usage.
+std::string AskForGame() {
+    std::printf("Drag Buckshot Roulette.exe (or its folder) into this window, then press Enter:\n> ");
+    std::fflush(stdout);
+    wchar_t line[2048];
+    DWORD read = 0;
+    if (!ReadConsoleW(GetStdHandle(STD_INPUT_HANDLE), line, 2047, &read, nullptr)) return {};
+    line[read] = L'\0';
+    return extract::CleanTypedPath(Utf8(line));
 }
 
 BOOL WINAPI OnConsoleEvent(DWORD type) {
@@ -87,8 +106,7 @@ void EndChildrenWithUs() {
 // Started from Explorer or by dropping a file on it, the console closes with
 // the program; keep it open so the result can be read.
 void HoldConsoleIfOwned() {
-    DWORD ids[2];
-    if (GetConsoleProcessList(ids, 2) == 1) {
+    if (OwnsConsole()) {
         std::printf("Press Enter to close.\n");
         std::fflush(stdout);
         // Keys pressed during the run would close the window at once.
@@ -175,7 +193,11 @@ int main(int argc, char** argv) {
     SetConsoleCtrlHandler(OnConsoleEvent, TRUE);
     SetConsoleOutputCP(CP_UTF8);   // paths are printed as UTF-8
     EndChildrenWithUs();
-    const std::vector<std::string> args = Utf8Args();
+    std::vector<std::string> args = Utf8Args();
+    if (args.size() == 1 && OwnsConsole()) {
+        const std::string typed = AskForGame();
+        if (!typed.empty()) args.push_back(typed);
+    }
 #else
     std::signal(SIGINT, OnSignal);
     std::signal(SIGTERM, OnSignal);

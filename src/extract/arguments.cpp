@@ -63,4 +63,16 @@ Parsed ParseArguments(const std::vector<std::string>& args, const Options& defau
     return p;
 }
 
+std::string CleanTypedPath(std::string line) {
+    const auto blank = [](char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; };
+    while (!line.empty() && blank(line.back())) line.pop_back();
+    std::size_t start = 0;
+    while (start < line.size() && blank(line[start])) ++start;
+    line.erase(0, start);
+    if (line.size() >= 2 && (line.front() == '"' || line.front() == '\'') && line.back() == line.front()) {
+        line = line.substr(1, line.size() - 2);
+    }
+    return line;
+}
+
 }  // namespace extract

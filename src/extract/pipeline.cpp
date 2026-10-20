@@ -52,6 +52,15 @@ private:
     std::ofstream file_;
 };
 
+// A step that prints nothing for minutes (export_fonts.gd, the room bake)
+// says once a minute that it is still running.
+std::function<void(std::chrono::milliseconds)> StillWorking(Log& log) {
+    return [&log](std::chrono::milliseconds elapsed) {
+        const auto minutes = std::chrono::duration_cast<std::chrono::minutes>(elapsed).count();
+        log.Line("    still working (" + std::to_string(minutes) + " min)");
+    };
+}
+
 // Times a stage and reports it as it ends.
 class Stage {
 public:
@@ -124,6 +133,7 @@ bool RunExporters(Log& log, const Options& o, const fs::path& project, const fs:
         run.workingDir = work;
         run.extraEnv = {UserDataVariable(ThisOs(), work / "user")};
         run.log = work / "logs" / (std::to_string(i) + "_" + name + ".log");
+        run.onStillRunning = StillWorking(log);
         log.Line("  " + name + (runs[i].args.empty() ? "" : " " + runs[i].args[0]));
         std::string error;
         if (!ClearOutputs(runs[i], extracted, error)) return stage.Done(false, error);
@@ -176,6 +186,7 @@ bool Bake(Log& log, const fs::path& work) {
         run.args = bakes[i];
         run.workingDir = work;
         run.log = work / "logs" / ("bake_" + std::to_string(i) + ".log");
+        run.onStillRunning = StillWorking(log);
         log.Line("  " + bakes[i][0] + (bakes[i][1] == "--scene" ? " " + bakes[i][2] : ""));
         const ChildResult r = RunChild(run);
         if (r.stopped) return stage.Done(false, "stopped");
