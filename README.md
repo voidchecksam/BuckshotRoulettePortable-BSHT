@@ -112,6 +112,8 @@ Windows, just copy the text out of the console window.
   with coding experience. I don't mind AI usage, this port is partly AI
   assisted, but you should at least know what you're doing. I made this
   performance first, which a lot of pure vibecoders might not like.
+- A faster bsht-extract with an actual window, multithreaded and GPU accelerated where it
+  helps, so nobody has to stare at export_fonts.gd for half an hour
 - Some BSHT ill think up probably (deadass might make a PC mod for Steam that
   lets you play multiplayer with the console)
 - Android, Mac and Linux versions (if you're a lovely helper and make one,
