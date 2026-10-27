@@ -35,9 +35,9 @@ Grab these from the General Release of Liability [Releases](../../releases) page
 
 | File | What it is |
 |---|---|
-| `BuckshotRoulettePortable-BSHT-v1.0.1.vpk` | the game for the Vita |
-| `bsht-extract-v1.0.1-windows.zip` | the tool that converts your copy (Windows 10 or newer) |
-| `bsht-desktop-v1.0.1-windows.zip` | the same port for Windows, if you want it on PC too, for whatever reason |
+| `BuckshotRoulettePortable-BSHT-v1.0.2.vpk` | the game for the Vita |
+| `bsht-extract-v1.0.2-windows.zip` | the tool that converts your copy (Windows 10 or newer) |
+| `bsht-desktop-v1.0.2-windows.zip` | the same port for Windows, if you want it on PC too, for whatever reason |
 
 I plan to release BSHT for macOS and Linux (natively) too, so that's coming
 later.
