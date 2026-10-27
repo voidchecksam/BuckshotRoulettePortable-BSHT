@@ -12,7 +12,9 @@
 
 #include "core/profiler.h"
 
+#include <array>
 #include <memory>
+#include <vector>
 
 #include "godot/skeleton.h"
 
@@ -94,6 +96,9 @@ public:
         liveBrightness_ = brightness;
         liveContrast_ = contrast;
     }
+    // Albedos whose variant pages skip a brightening grade (adrenaline,
+    // revival): the shells' live and blank colours stay readable.
+    void SetHeldColours(std::vector<std::array<float, 3>> colours) { heldColours_ = std::move(colours); }
     void SetEnvironmentGrade(float scale, float offset) {
         envScale_ = scale;
         envOffset_ = offset;
@@ -319,6 +324,7 @@ private:
     struct PropState {
         int texture = -1;
         bool variant = false;
+        bool held = false;   // a held colour's variant: no brightening
         float scale[3] = {1.0f, 1.0f, 1.0f};
         core::Mat4 model;
     };
@@ -391,6 +397,7 @@ private:
     bool  probeNoTextures_ = false;
     bool  probeBatchesOnly_ = false;
     float  envScale_ = 1.0f;
+    std::vector<std::array<float, 3>> heldColours_;
     assets::ProbeGrid probes_;   // the room's; empty: props are never rescaled
     float  envOffset_ = 0.0f;
     bool   liveGrade_ = false;

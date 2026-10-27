@@ -166,6 +166,11 @@ bool GameApp::Init(const AppConfig& config, assets::Room room, assets::FontAtlas
     }
     tree_->set_profiler(&profiler_);
     renderer_.SetProfiler(&profiler_);
+    {
+        const godot::Color& live = scripts::GlobalVariables::default_color_live;
+        const godot::Color& blank = scripts::GlobalVariables::default_color_blank;
+        renderer_.SetHeldColours({{live.r, live.g, live.b}, {blank.r, blank.g, blank.b}});
+    }
     // The executable's operator new counter (platform/alloc_count.cpp), if linked.
     profiler_.SetAllocCounter(core::RegisteredAllocCounter());
     Log(core::RegisteredAllocCounter() ? "prof: counting allocations per frame" : "prof: no allocation counter linked");

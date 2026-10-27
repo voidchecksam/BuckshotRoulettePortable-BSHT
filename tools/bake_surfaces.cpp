@@ -9,6 +9,7 @@
 #include "xatlas/xatlas.h"
 
 #include <algorithm>
+#include <array>
 #include <atomic>
 #include <cmath>
 #include <cstdio>
@@ -208,6 +209,7 @@ struct Accum {
     bool alpha = false;
     std::vector<float> sum;        // 4 per texel: r g b a
     std::vector<uint16_t> count;
+    std::vector<uint8_t> tint;     // per texel: 1 + its index in the bake's tints, 0: none
 };
 
 // Everything one chart's faces need to colour their texels.
@@ -229,7 +231,7 @@ struct Context {
 // `variant`, when given, replaces the surface's material and albedo texture.
 void ColourFace(const Context& cx, const Group& g, const WorldMesh& wm, uint32_t face,
                 const float uvTex[3][2], const uint32_t srcVerts[3], Accum& acc,
-                const PropVariantInput* variant) {
+                const PropVariantInput* variant, uint8_t tintSlot) {
     const assets::Mesh& m = *wm.mesh;
     const assets::SurfaceMaterial& mat =
         variant ? variant->material
@@ -424,6 +426,7 @@ void ColourFace(const Context& cx, const Group& g, const WorldMesh& wm, uint32_t
             acc.sum[t * 4 + 3] += albedo[3] * (g.isProp ? 1.0f : mat.alpha);
             ++acc.count[t];
         }
+        if (tintSlot != 0) acc.tint[t] = tintSlot;
         n = 0;
     };
     assets::RasteriseTriangle(uvTex, acc.size, [&](int x, int y, const float* b) {
@@ -443,7 +446,8 @@ void ColourFace(const Context& cx, const Group& g, const WorldMesh& wm, uint32_t
 }
 
 // Grades, dilates and encodes one accumulated page.
-SurfacePage FinishPage(const Accum& acc, const assets::light::Grade& grade) {
+SurfacePage FinishPage(const Accum& acc, const assets::light::Grade& grade,
+                       const std::vector<std::array<float, 3>>& tints) {
     SurfacePage page;
     page.size = acc.size;
     page.alpha = acc.alpha;
@@ -456,6 +460,19 @@ SurfacePage FinishPage(const Accum& acc, const assets::light::Grade& grade) {
         const float lin[3] = {acc.sum[t * 4] * k, acc.sum[t * 4 + 1] * k, acc.sum[t * 4 + 2] * k};
         float srgb[3];
         assets::light::GradePixel(lin, grade, srgb);
+        if (acc.tint[t] != 0) {
+            const std::array<float, 3>& c = tints[acc.tint[t] - 1u];
+            auto luma = [](const float* v) { return 0.2126f * v[0] + 0.7152f * v[1] + 0.0722f * v[2]; };
+            const float l = luma(srgb);
+            const float cl = luma(c.data());
+            // Mostly the shell colour, a little of the grade's grey.
+            constexpr float kTintWeight = 0.8f;
+            if (cl > 0.0f)
+                for (int k = 0; k < 3; ++k) {
+                    const float tinted = std::clamp(l * c[static_cast<std::size_t>(k)] / cl, 0.0f, 1.0f);
+                    srgb[k] += kTintWeight * (tinted - srgb[k]);
+                }
+        }
         for (int c = 0; c < 3; ++c) page.rgba[t * 4 + c] = static_cast<uint8_t>(std::lround(srgb[c] * 255.0f));
         page.rgba[t * 4 + 3] =
             static_cast<uint8_t>(std::lround(std::clamp(acc.sum[t * 4 + 3] * k, 0.0f, 1.0f) * 255.0f));
@@ -872,6 +889,7 @@ bool BakeSurfaces(const assets::Room& room, const SurfaceBakeInput& in, SurfaceB
         accum[p].alpha = out.pages[p].alpha;
         accum[p].sum.assign(static_cast<std::size_t>(size) * size * 4, 0.0f);
         accum[p].count.assign(static_cast<std::size_t>(size) * size, 0);
+        accum[p].tint.assign(static_cast<std::size_t>(size) * size, 0);
     }
     struct Work { std::size_t group; uint32_t chart; int variant; };   // variant -1: the base material
     std::vector<Work> work;
@@ -897,6 +915,23 @@ bool BakeSurfaces(const assets::Room& room, const SurfaceBakeInput& in, SurfaceB
         for (const core::Mat4& pose : props[p].extraPoses) propExtra[p].push_back(ToWorld(props[p].mesh, pose));
     }
     const Context cx{&in, &bvh, &propBvh, &room, &propAlt, &propMean, &propExtra};
+    // The variants' tints, each colour once; a texel stores 1 + its index.
+    std::vector<std::array<float, 3>> tints;
+    for (const auto& list : in.propVariants)
+        for (const PropVariantInput& v : list) {
+            if (!v.tinted) continue;
+            const std::array<float, 3> c{v.tint[0], v.tint[1], v.tint[2]};
+            if (std::find(tints.begin(), tints.end(), c) == tints.end()) tints.push_back(c);
+        }
+    if (tints.size() > 255) {
+        out.error = "more than 255 variant tints";
+        return false;
+    }
+    auto tintSlotOf = [&](const PropVariantInput& v) -> uint8_t {
+        if (!v.tinted) return 0;
+        const std::array<float, 3> c{v.tint[0], v.tint[1], v.tint[2]};
+        return static_cast<uint8_t>(std::find(tints.begin(), tints.end(), c) - tints.begin() + 1);
+    };
     std::atomic<std::size_t> next{0};
     std::atomic<std::size_t> done{0};
     auto worker = [&]() {
@@ -925,7 +960,7 @@ bool BakeSurfaces(const assets::Room& room, const SurfaceBakeInput& in, SurfaceB
                     uvOf(gi, v, uv[k]);
                     src[k] = g.verts[v.xref];
                 }
-                ColourFace(cx, g, wm, g.faces[face], uv, src, acc, vin);
+                ColourFace(cx, g, wm, g.faces[face], uv, src, acc, vin, vin ? tintSlotOf(*vin) : 0);
             }
             const std::size_t d = done.fetch_add(1) + 1;
             if (d % 2000 == 0) {
@@ -941,7 +976,8 @@ bool BakeSurfaces(const assets::Room& room, const SurfaceBakeInput& in, SurfaceB
 
     for (std::size_t p = 0; p < out.pages.size(); ++p) {
         const int grade = out.pages[p].grade;
-        out.pages[p] = FinishPage(accum[p], grade >= 0 ? in.propGrades[static_cast<std::size_t>(grade)] : in.grade);
+        out.pages[p] =
+            FinishPage(accum[p], grade >= 0 ? in.propGrades[static_cast<std::size_t>(grade)] : in.grade, tints);
         out.pages[p].grade = grade;
         out.encodedBytes += out.pages[p].encoded.size();
     }

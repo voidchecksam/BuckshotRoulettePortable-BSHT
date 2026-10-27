@@ -29,6 +29,7 @@ add_executable(bsht_tests
     test_skin_gpu_plan.cpp
     test_debug_switch.cpp
     test_report_files.cpp
+    test_shader_cache_check.cpp
     test_dyn_lights.cpp
     test_port_branding.cpp
     test_particle_sim.cpp

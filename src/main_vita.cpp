@@ -1,7 +1,6 @@
-// PS Vita entry point: the platform only (the game is app::GameApp, shared with
-// the desktop). vitaGL owns the GL context, input is the controller, and
-// everything measurable goes to a report file when the BSHT_REPORT switch
-// file asks for one.
+// PS Vita entry point: the platform only (the game is app::GameApp, shared with the desktop).
+// vitaGL owns the GL context, input is the controller, and everything measurable goes to a
+// report file when the BSHT_REPORT switch file asks for one.
 //
 // NO %zu: newlib on arm-vita-eabi prints a literal "zu" and desynchronises every
 // following vararg. Cast to unsigned long and use %lu.
@@ -31,6 +30,7 @@
 #include <string>
 
 #include "platform/viewport_map.h"
+#include "platform/vita_shader_cache.h"
 #include "platform/vita_touch.h"
 
 #include <psp2/ctrl.h>
@@ -176,8 +176,7 @@ bool StartPressed() {
 
 int main(int, char**) {
     Report report;
-    // Off unless ux0:data/bsht/BSHT_REPORT exists, so a player's memory card
-    // does not collect a file per boot.
+    // Off unless ux0:data/bsht/BSHT_REPORT exists: a player's card collects no files.
     const app::DebugSwitch reportSwitch = app::ReadDebugSwitch("BSHT_REPORT", BSHT_SAVE_DIR);
     report.path = app::ReportPathFor(reportSwitch.on, kReportDir);
     report.Line("bsht vita report v%d  build %s  %s  git %s", kReportVersion, BSHT_TITLE_ID,
@@ -185,6 +184,7 @@ int main(int, char**) {
     if (reportSwitch.on) report.Line("switch BSHT_REPORT on (%s)", reportSwitch.source.c_str());
     report.Flush();
 
+    report.Line("%s", platform::PruneShaderCache(BSHT_TITLE_ID).c_str());   // before vitaGL reads it
     SDL_Window* window = nullptr;
     SDL_GLContext ctx = nullptr;
     if (!GlCompatInit(&window, &ctx, "bsht", kPanelWidth, kPanelHeight, /*vsync=*/true)) {

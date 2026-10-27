@@ -357,6 +357,75 @@ TEST(BakeSurfaces, AVariantSurfaceGetsOnePagePerMaterialAtTheSameUv) {
     EXPECT_GT(b[2], b[0]);
 }
 
+// The shells' live and blank colours are tinted back in after the grade: the
+// room's grade keeps a quarter of the saturation, so under the amber lamp a
+// blank shell reads grey, a live one pale pink, and both go white when the
+// screen brightens (adrenaline, the revival).
+TEST(BakeSurfaces, ATintedVariantKeepsItsHueThroughTheGrade) {
+    Room room = QuadRoom();
+    std::vector<RoomProp> props(1);
+    props[0].mesh.positions = {-0.5f, 0, -0.5f, 0.5f, 0, -0.5f, 0.5f, 0, 0.5f, -0.5f, 0, 0.5f};
+    props[0].mesh.normals = {0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0};
+    props[0].mesh.indices = {0, 2, 1, 0, 3, 2};
+    props[0].nodePath = "shell";
+    props[0].visibleAtLoad = true;
+    props[0].bakeWorld.m[13] = 1.0f;
+    room.AdoptProps(std::move(props));
+
+    tools::SurfaceBakeInput in;
+    BakedLight l;
+    l.position[1] = 3.0f;
+    l.colour[0] = 1.0f;   // amber, as the table lamp
+    l.colour[1] = 0.45f;
+    l.colour[2] = 0.05f;
+    l.energy = 2.0f;
+    l.range = 10.0f;
+    l.attenuation = 1.0f;
+    in.lights = {l};
+    in.sourceMaterial = {SurfaceMaterial{}};
+    in.propMaterial = {SurfaceMaterial{}};
+    in.propAlpha = {0};
+    in.propTexture = {-1};
+    tools::PropVariantInput blank, tinted, live;
+    blank.material.albedo[0] = 0.29f;
+    blank.material.albedo[1] = 0.5f;
+    tinted = blank;
+    tinted.tinted = true;
+    tinted.tint[0] = 0.29f;
+    tinted.tint[1] = 0.5f;
+    tinted.tint[2] = 1.0f;
+    live.material.albedo[1] = 0.28f;
+    live.material.albedo[2] = 0.29f;
+    live.tinted = true;
+    live.tint[0] = 1.0f;
+    live.tint[1] = 0.28f;
+    live.tint[2] = 0.29f;
+    in.propVariants = {{blank, tinted, live}};
+    TexturePool pool;
+    in.albedo = &pool;
+    in.batchTexture = {-1};
+    in.pageSize = 64;
+    in.threads = 1;
+    tools::SurfaceBakeResult out;
+    ASSERT_TRUE(tools::BakeSurfaces(room, in, out)) << out.error;
+
+    const RoomProp& p = out.props[0];
+    ASSERT_EQ(p.variants.size(), 3u);
+    auto texel = [&](int page) {
+        const tools::SurfacePage& pg = out.pages[static_cast<std::size_t>(page)];
+        float cx = 0, cy = 0;
+        const std::size_t n = p.mesh.uv2.size() / 2;
+        for (std::size_t v = 0; v < n; ++v) { cx += p.mesh.uv2[v * 2] / n; cy += p.mesh.uv2[v * 2 + 1] / n; }
+        const std::size_t t = static_cast<std::size_t>(cy * pg.size) * pg.size + static_cast<std::size_t>(cx * pg.size);
+        return std::array<int, 3>{pg.rgba[t * 4], pg.rgba[t * 4 + 1], pg.rgba[t * 4 + 2]};
+    };
+    const auto grey = texel(p.variants[0].page), b = texel(p.variants[1].page), r = texel(p.variants[2].page);
+    EXPECT_LE(grey[2], grey[0]);        // untinted: the lamp wins, no blue left
+    EXPECT_GT(b[2], 2 * b[0]);          // tinted blank: blue
+    EXPECT_GT(r[0], 2 * r[2]);          // tinted live: red
+    EXPECT_GT(r[0], 2 * r[1]);
+}
+
 // Godot perturbs the normal with the material's normal map (the shipped
 // DXT5_RA_AS_RG maps have Y = 0, as on the defib cutters). A map of (0.5, 0)
 // turns an up-facing quad's normal to -binormal = +z. A lamp level with the

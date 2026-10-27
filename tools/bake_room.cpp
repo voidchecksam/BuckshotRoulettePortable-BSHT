@@ -1272,6 +1272,7 @@ int BakeRoomMain(int argc, char** argv) {
         CollectTextureSwaps(runtime.get_root(), swaps);
         for (const std::unique_ptr<godot::Node>& inst : keepInstances) CollectMaterialSwaps(inst.get(), swaps);
         int variantProps = 0;
+        int tintedVariants = 0;
         int sceneTextured = 0;
         std::set<SwapKey> usedSwaps;
         for (std::size_t pi = 0; pi < room.Props().size(); ++pi) {
@@ -1329,12 +1330,25 @@ int BakeRoomMain(int argc, char** argv) {
                 v.emission[1] = sm.emission.g;
                 v.emission[2] = sm.emission.b;
                 v.textureKey = assets::TextureKeyHash(sm.albedo_texture);
+                // The default live and blank colours keep their red and blue
+                // through the grade (the colour-blind pair is white and grey).
+                for (const godot::Color& c :
+                     {scripts::GlobalVariables::default_color_live, scripts::GlobalVariables::default_color_blank}) {
+                    if (sm.albedo.r == c.r && sm.albedo.g == c.g && sm.albedo.b == c.b) {
+                        v.tinted = true;
+                        v.tint[0] = c.r;
+                        v.tint[1] = c.g;
+                        v.tint[2] = c.b;
+                        ++tintedVariants;
+                    }
+                }
                 in.propVariants.back().push_back(v);
             }
             ++variantProps;
         }
         if (normalMissing) return 1;
         std::printf("surfaces: %d prop surfaces carry material variants\n", variantProps);
+        std::printf("surfaces: %d variants tinted with a shell colour\n", tintedVariants);
         std::printf("surfaces: %d props take the texture the scene gave them\n", sceneTextured);
         int detailProps = 0;
         for (uint8_t d : in.propDetail) detailProps += d;

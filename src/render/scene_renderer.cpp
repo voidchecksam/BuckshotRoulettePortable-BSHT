@@ -783,6 +783,7 @@ SceneRenderer::PropState SceneRenderer::ResolveProp(const Prop& p,
         if (variant >= 0) {
             st.texture = variant;
             st.variant = true;
+            for (const auto& c : heldColours_) st.held = st.held || (c[0] == a.r && c[1] == a.g && c[2] == a.b);
             tint = {1.0f, 1.0f, 1.0f, 1.0f};
         }
     }
@@ -848,12 +849,16 @@ void SceneRenderer::DrawProp(const Prop& p, const godot::GeometryInstance3D& nod
         assets::light::PosterizedEnvironmentUniforms(liveBrightness_, liveContrast_, &gradeScale, &gradeOffset,
                                                      p.gradeBrightness, p.gradeContrast);
     }
+    const PropState st = ResolveProp(p, node);
+    if (st.held && gradeScale > 1.0f) {
+        gradeScale = 1.0f;
+        gradeOffset = 0.0f;
+    }
     const float offset = drawingAdditive_ ? 0.0f : gradeOffset;   // an ADD prop takes none
     if (offset != activeOffset_) {
         sh.SetVec3("u_offset", offset, offset, offset);
         activeOffset_ = offset;
     }
-    const PropState st = ResolveProp(p, node);
     if (alpha >= 1.0f && &node == p.node) CountProp(static_cast<std::size_t>(&p - props_.data()), st);
     sh.SetVec3("u_scale", st.scale[0] * gradeScale, st.scale[1] * gradeScale, st.scale[2] * gradeScale);
     sh.SetFloat("u_alpha", alpha);

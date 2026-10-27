@@ -361,7 +361,7 @@ if(BSHT_TARGET STREQUAL "vita")
     # front touch panel from platform/vita_touch.cpp, the one place
     # psp2/touch.h is included, so the entry point stays platform wiring and
     # the edge detection (platform/touch_tracker.h) stays testable on desktop.
-    add_library(bsht_platform STATIC ${BSHT_RENDER_SOURCES} platform/vita_touch.cpp)
+    add_library(bsht_platform STATIC ${BSHT_RENDER_SOURCES} platform/vita_touch.cpp platform/vita_shader_cache.cpp)
     target_include_directories(bsht_platform PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
     target_link_libraries(bsht_platform PUBLIC bsht_game bsht_godot bsht_assets bsht_core bsht_vorbis)
     target_compile_definitions(bsht_platform PUBLIC BSHT_SAVE_DIR="ux0:data/bsht"

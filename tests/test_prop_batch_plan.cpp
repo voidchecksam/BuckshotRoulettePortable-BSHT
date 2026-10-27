@@ -91,4 +91,8 @@ TEST(PropBatchPlan, OnlyPlainStillPropsCanBatch) {
     assets::RoomProp empty = plain;
     empty.mesh.indices.clear();
     EXPECT_FALSE(render::PropCanBatch(empty));
+
+    assets::RoomProp swaps = plain;
+    swaps.variants.emplace_back();
+    EXPECT_FALSE(render::PropCanBatch(swaps)) << "a shell's colour may skip the scene's grade";
 }

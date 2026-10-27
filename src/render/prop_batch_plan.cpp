@@ -9,7 +9,7 @@ namespace render {
 bool PropCanBatch(const assets::RoomProp& prop) {
     const bool skinned = !prop.mesh.joints.empty() && prop.mesh.weights.size() == prop.mesh.joints.size();
     return !skinned && prop.templateKey.empty() && !prop.mesh.indices.empty() &&
-           !assets::InMovingLightScope(prop.nodePath) && !prop.HasOwnGrade();
+           !assets::InMovingLightScope(prop.nodePath) && !prop.HasOwnGrade() && prop.variants.empty();
 }
 
 std::vector<PropChunk> BuildChunks(const std::vector<BatchProp>& props, int slots, uint32_t maxVertices) {

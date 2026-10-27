@@ -35,6 +35,11 @@ struct PropVariantInput {
     float albedo[4] = {1.0f, 1.0f, 1.0f, 1.0f};
     float emission[3] = {0.0f, 0.0f, 0.0f};
     uint32_t textureKey = 0;   // assets::TextureKeyHash of its albedo texture
+    // Tinted: after the grade each texel keeps its brightness and takes this
+    // colour's hue (sRGB). The shells' live and blank colours, which the
+    // room's grade would leave grey.
+    bool tinted = false;
+    float tint[3] = {1.0f, 1.0f, 1.0f};
 };
 
 struct SurfaceBakeInput {
