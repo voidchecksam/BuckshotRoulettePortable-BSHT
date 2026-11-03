@@ -52,6 +52,22 @@ TEST(GodotPhysics, RayHitsTheNearestBoxAndReportsItsBody) {
     EXPECT_NEAR(r.normal.z, 1.0f, 1e-5f);
 }
 
+// PhysicsRayQueryParameters3D.exclude: the ray passes through those bodies.
+TEST(GodotPhysics, AnExcludedBodyIsPassedThroughToTheNextHit) {
+    godot::SceneTree t;
+    godot::Node* root = t.add_node(std::make_unique<godot::Node3D>("main"), nullptr);
+    godot::StaticBody3D* farBody = AddBoxBody(t, root, "far", {0, 0, -10}, {2, 2, 2});
+    godot::StaticBody3D* nearBody = AddBoxBody(t, root, "near", {0, 0, -5}, {2, 2, 2});
+    t.physics_sync();
+    godot::RayQuery q = Ray({0, 0, 0}, {0, 0, -20});
+    q.exclude.push_back(nearBody);
+    godot::RayResult r;
+    ASSERT_TRUE(t.physics_space().intersect_ray(q, r));
+    EXPECT_EQ(r.collider, farBody);
+    q.exclude.push_back(farBody);
+    EXPECT_FALSE(t.physics_space().intersect_ray(q, r));
+}
+
 TEST(GodotPhysics, NoBodyOnTheRayIsNoHit) {
     godot::SceneTree t;
     godot::Node* root = t.add_node(std::make_unique<godot::Node3D>("main"), nullptr);
@@ -254,4 +270,22 @@ TEST(GodotCylinderShape, ASegmentPastTheRadiusMisses) {
     const auto c = Cylinder(0.5f, 2.0f);
     godot::Vector3 hit, normal;
     EXPECT_FALSE(c.intersect_segment({-2.0f, 0.0f, 0.6f}, {2.0f, 0.0f, 0.6f}, hit, normal, false));
+}
+
+// Camera3D.unproject_position undoes project_position: a screen point pushed
+// out to any depth lands back on the same pixel.
+TEST(GodotPhysics, UnprojectPositionReturnsTheScreenPointProjectPositionStartedFrom) {
+    godot::SceneTree t;
+    auto* cam = static_cast<godot::Camera3D*>(t.add_node(std::make_unique<godot::Camera3D>("Camera"), nullptr));
+    cam->set_fov(60.0f);
+    cam->set_transform_origin({1.0f, 2.0f, 3.0f});
+    cam->set_rotation_degrees({-35.0f, 20.0f, 0.0f});
+    for (const godot::Vector2 screen : {godot::Vector2{480, 270}, godot::Vector2{12, 500}, godot::Vector2{900, 40}}) {
+        for (const float depth : {0.5f, 7.0f, 300.0f}) {
+            const godot::Vector3 world = godot::project_position(*cam, screen, depth, godot::kViewportSize);
+            const godot::Vector2 back = godot::unproject_position(*cam, world, godot::kViewportSize);
+            EXPECT_NEAR(back.x, screen.x, 0.05f) << depth;
+            EXPECT_NEAR(back.y, screen.y, 0.05f) << depth;
+        }
+    }
 }

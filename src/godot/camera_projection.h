@@ -16,5 +16,7 @@ inline constexpr Vector2 kViewportSize{960.0f, 540.0f};
 Vector3 project_ray_origin(const Camera3D& camera, Vector2 screen, Vector2 viewport);
 // camera_3d.cpp:393: the point `z_depth` in front of the camera under `screen`.
 Vector3 project_position(const Camera3D& camera, Vector2 screen, float z_depth, Vector2 viewport);
+// camera_3d.cpp:266: where a world point lands on the screen.
+Vector2 unproject_position(const Camera3D& camera, const Vector3& world, Vector2 viewport);
 
 }  // namespace godot

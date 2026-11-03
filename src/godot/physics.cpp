@@ -1,6 +1,8 @@
 // Transcribed from Godot 4.1.4-stable; see physics.h for the file list.
 #include "godot/physics.h"
 
+#include <algorithm>
+
 #include <cmath>
 #include <memory>
 
@@ -606,6 +608,7 @@ bool PhysicsDirectSpaceState3D::intersect_ray(const RayQuery& q, RayResult& r) c
     for (const Entry& e : entries_) {
         // _can_collide_with: layer & mask, and the object type (bodies here).
         if ((e.layer & q.collision_mask) == 0 || !q.collide_with_bodies) continue;
+        if (std::find(q.exclude.begin(), q.exclude.end(), e.body) != q.exclude.end()) continue;
 
         const Vector3 local_from = XformPoint(e.inverse, q.from);
         const Vector3 local_to = XformPoint(e.inverse, q.to);

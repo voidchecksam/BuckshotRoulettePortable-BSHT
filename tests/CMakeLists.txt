@@ -108,6 +108,7 @@ add_executable(bsht_tests
     test_godot_print.cpp
     test_scripts_global_variables.cpp
     test_scripts_colorblind.cpp
+    test_scripts_steal_aim.cpp
     test_scripts_v22_small.cpp
     test_font_pages.cpp
     test_scene_host.cpp

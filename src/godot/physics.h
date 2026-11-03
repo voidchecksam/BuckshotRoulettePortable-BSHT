@@ -137,6 +137,7 @@ struct RayQuery {
     bool collide_with_areas = false;
     bool hit_from_inside = false;
     bool hit_back_faces = true;
+    std::vector<const Node*> exclude;   // bodies the ray passes through
 };
 
 // intersect_ray's Dictionary: collider, position, normal, shape.

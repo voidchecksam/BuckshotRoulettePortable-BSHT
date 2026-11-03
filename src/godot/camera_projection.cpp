@@ -117,4 +117,19 @@ Vector3 project_position(const Camera3D& camera, Vector2 screen, float z_depth, 
     return CameraTransform(camera).xform({px, py, -z_depth});
 }
 
+Vector2 unproject_position(const Camera3D& camera, const Vector3& world, Vector2 viewport) {
+    if (viewport.y == 0.0f) return {};
+    float m[16];
+    Perspective(camera.get_fov(), viewport.x / viewport.y, camera.get_near(), camera.get_far(), m);
+    const CameraXform t = CameraTransform(camera);
+    const Vector3 d = Sub(world, t.origin);
+    const float v[4] = {Dot(t.x, d), Dot(t.y, d), Dot(t.z, d), 1.0f};   // xform_inv, then Plane(local, 1)
+    float r[4];
+    for (int row = 0; row < 4; ++row) {
+        r[row] = m[row] * v[0] + m[4 + row] * v[1] + m[8 + row] * v[2] + m[12 + row] * v[3];
+    }
+    if (r[3] == 0.0f) return {};
+    return {(r[0] / r[3] * 0.5f + 0.5f) * viewport.x, (-r[1] / r[3] * 0.5f + 0.5f) * viewport.y};
+}
+
 }  // namespace godot
